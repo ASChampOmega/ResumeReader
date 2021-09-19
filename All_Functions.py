@@ -1,3 +1,5 @@
+#@title
+
 # Zip Folder Name -> Pdf Files -> List of Strings
 # Read Files: From a list of given file names, takes each file name, opens it, and stores it as a list of strings
 
@@ -159,6 +161,7 @@ def get_skills(s, skills_list, window):
     skill = skill.lower()
     prev_pos_skill[skill] = 0
   for skill in skills_list:
+    skill = skill.lower()
     curr_pos = s1.find(skill, prev_pos_skill[skill], len(s1))
     if(curr_pos != -1):
       level = check_level_skill(s1, curr_pos, window)
@@ -318,15 +321,26 @@ def make_html(L, all_data, filename):
   html = generate_header()
   if(1 in L):
     if(all_data['email_address'] != "Not_Found"):
-      html += """
-      <div class="email container p-3 my-3 bg-dark text-white">
-        <h1> """ + filename + """ </h1>
-        <h2> Email: """ 
-      for email in all_data['email_address']:
-        html += email + ", "
-      html +=""" </h2>
-      </div>
-      """
+      if(len(all_data['email_address']) == 1):
+        html += """
+        <div class="email container p-3 my-3 bg-dark text-white">
+          <h1> """ + filename + """ </h1>
+          <h2> Email: """ 
+        for email in all_data['email_address']:
+          html += email
+        html +=""" </h2>
+        </div>
+        """
+      else:  
+        html += """
+        <div class="email container p-3 my-3 bg-dark text-white">
+          <h1> """ + filename + """ </h1>
+          <h2> Email: """ 
+        for email in all_data['email_address']:
+          html += email + ", "
+        html +=""" </h2>
+        </div>
+        """
     else:
       html += """ <div class="email container p-3 my-3 bg-dark text-white"> <h1> """ + filename + """ </h1> <h2> Email: Not Found </h2> </div> """
   if(2 in L):
@@ -355,6 +369,7 @@ def make_html(L, all_data, filename):
                         <p class="card-text"> """ + proj.capitalize() + """ </p>
                         <ul class="list-group">
                         """
+        count += 1
         for x in all_data['projects'][proj]:
           html += """ <li class="list-group-item"> """ + x.capitalize() + """ </li>"""
         html += """
